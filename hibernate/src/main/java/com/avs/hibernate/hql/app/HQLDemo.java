@@ -55,25 +55,33 @@ public class HQLDemo {
 	}
 
 	private static void insert(Session session) {
+		//transient state
 		Customer customer1 = new Customer();
 		customer1.setCustomerName("customer1");
 		customer1.setEmailAddress("customer1@service.com");
 		customer1.setCustomerId(1);
 		customer1.setPhoneNumber(1234567890);
+		//transient state
 		Customer customer2 = new Customer();
 		customer2.setCustomerName("customer2");
 		customer2.setEmailAddress("customer2@service.com");
 		customer2.setPhoneNumber(986543210);
 		customer2.setCustomerId(2);
+		//transient state
 		Customer customer3 = new Customer();
 		customer3.setCustomerName("customer3");
 		customer3.setEmailAddress("customer3@service.com");
 		customer3.setCustomerId(3);
 		customer3.setPhoneNumber(986543210);
 		session.beginTransaction();
+		//attached state
 		session.saveOrUpdate(customer1);
 		session.saveOrUpdate(customer2);
 		session.saveOrUpdate(customer3);
 		session.getTransaction().commit();
+		//detaxhed state
+//		session.evict(customer1);
+//		session.evict(customer2);
+//		session.evict(customer3);
 	}
 }
