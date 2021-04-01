@@ -13,13 +13,17 @@ public class SaveVsPersistDemo {
 		SessionFactory sf = new Configuration().configure().addAnnotatedClass(Student.class).buildSessionFactory();
 		Session session = sf.openSession();
 		Session session2 = sf.openSession();
+		Session session3 = sf.openSession();
 		try {
 			
 //			transientInsert(session);
-			detachedTransaction(session,session2);
+//			detachedTransaction(session,session2);
+			updateWithGetAndSet(session3);
+			
 		}finally {
 			session.close();
 			session2.close();
+			session3.close();
 			sf.close();
 		}
 	}
@@ -45,6 +49,12 @@ public class SaveVsPersistDemo {
 		System.out.println(id);
 		//1.Persist is JPA method and it return void
 //		session.persist(student);
+		session.getTransaction().commit();
+	}
+	private static void updateWithGetAndSet(Session session) {
+		session.beginTransaction();
+		Student stud = session.get(Student.class, 6);
+		stud.setEmail("outside");
 		session.getTransaction().commit();
 	}
 }
